@@ -1,0 +1,10 @@
+unit,floor_plan,resident,move_in,move_out
+1,Studio,John Smith,1/1/2021,
+1,Studio,Sally Carol,6/1/2019,12/15/2020
+10,Studio,,,
+11,Studio,,,
+12,Studio,,,
+2,Suite,Sarah,3/1/2021,
+3,Suite,,,
+4,Suite,,,
+5,Suite,Teddy,,

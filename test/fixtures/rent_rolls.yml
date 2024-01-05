@@ -1,0 +1,15 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  unit: 1
+  floor_plan: MyString
+  resident: MyString
+  move_in: 2024-01-04
+  move_out: 2024-01-04
+
+two:
+  unit: 1
+  floor_plan: MyString
+  resident: MyString
+  move_in: 2024-01-04
+  move_out: 2024-01-04
