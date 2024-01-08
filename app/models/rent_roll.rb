@@ -7,6 +7,14 @@ class RentRoll < ApplicationRecord
     end
   end
 
+  def future_tenant?(report_date)
+    move_in.present? && move_in_date > report_date
+  end
+
+  def resident_data
+    { name: resident, move_in: move_in, move_out: move_out}
+  end
+
   private
     ##############################################################################
     # didn't realize till after i started that sqlite doesn't have a proper      #
@@ -26,11 +34,11 @@ class RentRoll < ApplicationRecord
     end
 
     def move_in_date
-      Date.strptime(move_in, '%m/%d/%Y')
+      @parsed_move_in_date ||= Date.strptime(move_in, '%m/%d/%Y')
     end
 
     def move_out_date
-      Date.strptime(move_out, '%m/%d/%Y')
+      @parsed_move_out_date ||= Date.strptime(move_out, '%m/%d/%Y')
     end
 
     def rented_dates
