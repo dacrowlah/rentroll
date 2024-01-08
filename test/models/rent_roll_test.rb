@@ -23,6 +23,24 @@ class RentRollTest < ActiveSupport::TestCase
     assert_not roll.available_on(today)
   end
 
+  test "the unit is available now, but has a tenant with a future move in date" do
+    roll = RentRoll.new(move_in: tomorrow)
+    assert roll.available_on(today)
+    assert roll.future_tenant? today
+  end
+
+  test "the unit is occupied and does not have a future tenant" do
+    roll = RentRoll.new(move_in: yesterday)
+    assert_not roll.available_on today
+    assert_not roll.future_tenant? today
+  end
+
+  test "the resident info is returned correctly" do
+    expected = { name: "John", move_in: yesterday, move_out:tomorrow }
+    roll = RentRoll.new(resident: "John", move_in: yesterday, move_out: tomorrow)
+    assert_equal expected, roll.resident_data
+  end
+
   private
     def today
       Date.today
