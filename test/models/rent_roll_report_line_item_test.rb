@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 class RentRollReportLineItemTest < ActiveSupport::TestCase
-  DATE_FORMAT = '%m/%d/%Y'
-
   test "that empty list to constructor raises error" do
     assert_raise RuntimeError do
       RentRollReportLineItem.new(report_date: today, rent_rolls: [])
@@ -67,11 +65,11 @@ class RentRollReportLineItemTest < ActiveSupport::TestCase
     end
 
     def yesterday
-      (today - 1.day).strftime(DATE_FORMAT)
+      (today - 1.day).strftime(Constants::DATE_FORMAT)
     end
 
     def tomorrow
-      (today + 1.day).strftime(DATE_FORMAT)
+      (today + 1.day).strftime(Constants::DATE_FORMAT)
     end
 
     def day_after_tomorrow
