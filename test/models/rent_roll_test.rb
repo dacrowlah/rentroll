@@ -1,9 +1,7 @@
 require "test_helper"
 
 class RentRollTest < ActiveSupport::TestCase
-  DATE_FORMAT = '%m/%d/%Y'
-
-  test "the unit is available with no move in or move out date set" do 
+  test "the unit is available with no move in or move out date set" do
     roll = RentRoll.new
     assert roll.available_on(today)
   end
@@ -41,11 +39,11 @@ class RentRollTest < ActiveSupport::TestCase
     end
 
     def yesterday
-      (today - 1.day).strftime(DATE_FORMAT)
+      (today - 1.day).strftime(Constants::DATE_FORMAT)
     end
 
     def tomorrow
-      (today + 1.day).strftime(DATE_FORMAT)
+      (today + 1.day).strftime(Constants::DATE_FORMAT)
     end
 
     def day_after_tomorrow

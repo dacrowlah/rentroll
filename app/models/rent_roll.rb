@@ -16,7 +16,7 @@ class RentRoll < ApplicationRecord
   end
 
   def move_in_date
-    @parsed_move_in_date ||= Date.strptime(move_in, '%m/%d/%Y')
+    @parsed_move_in_date ||= Date.strptime(move_in, Constants::DATE_FORMAT)
   end
 
   private
@@ -38,7 +38,7 @@ class RentRoll < ApplicationRecord
     end
 
     def move_out_date
-      @parsed_move_out_date ||= Date.strptime(move_out, '%m/%d/%Y')
+      @parsed_move_out_date ||= Date.strptime(move_out, Constants::DATE_FORMAT)
     end
 
     def rented_dates

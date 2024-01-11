@@ -2,8 +2,8 @@
 
 class RentRollReport
   def self.run_for(date)
-    report_date = Date.strptime date, "%m/%d/%Y"
-    data        = RentRoll.all.group_by { |r| r.unit }
+    report_date = Date.strptime date, Constants::DATE_FORMAT
+    data        = RentRoll.all.group_by &:unit
     line_items  = []
 
     data.each do |_, rent_rolls|
@@ -13,9 +13,9 @@ class RentRollReport
       )
     end
 
-    vacant_units    = line_items.select { |l| l.vacant? }.count
-    occupied_units  = line_items.select { |l| l.occupied? }.count
-    leased_units    = line_items.select { |l| l.leased_or_occupied? }.count
+    vacant_units    = line_items.select(&:vacant?).count
+    occupied_units  = line_items.select(&:occupied?).count
+    leased_units    = line_items.select(&:leased_or_occupied?).count
 
     puts "===================================================="
     puts "RENT ROLL REPORT FOR:  #{ report_date    }          "
@@ -24,8 +24,8 @@ class RentRollReport
     puts "LEASED UNITS:          #{ leased_units   }          "
     puts "===================================================="
 
-    line_items.sort_by! { |l| l.unit }
-    line_items.each(&:report_section)
+    line_items.sort_by! &:unit
+    line_items.each &:report_section
 
   end
 end
