@@ -7,12 +7,16 @@ class RentRoll < ApplicationRecord
     end
   end
 
-  def future_tenant?(report_date)
+  def not_available_on?(report_date)
+    !available_on report_date
+  end
+
+  def future_resident?(report_date)
     move_in.present? && move_in_date > report_date
   end
 
-  def resident_data
-    { name: resident, move_in: move_in, move_out: move_out}
+  def move_in_date
+    @parsed_move_in_date ||= Date.strptime(move_in, '%m/%d/%Y')
   end
 
   private
@@ -31,10 +35,6 @@ class RentRoll < ApplicationRecord
 
     def is_date_available_to_rent?(report_date)
       !rented_dates.include? report_date
-    end
-
-    def move_in_date
-      @parsed_move_in_date ||= Date.strptime(move_in, '%m/%d/%Y')
     end
 
     def move_out_date
