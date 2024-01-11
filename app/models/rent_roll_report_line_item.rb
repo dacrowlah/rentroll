@@ -11,7 +11,6 @@ class RentRollReportLineItem
     end
 
     first_unit        = rent_rolls.first
-    @report_date      = report_date
     @future_residents = []
     @unit             = first_unit.unit
     @floor_plan       = first_unit.floor_plan
@@ -27,19 +26,19 @@ class RentRollReportLineItem
     end
 
     if @future_residents.present?
-      @future_residents.sort_by! { |r| r.move_in_date }
+      @future_residents.sort_by! &:move_in_date
     end
   end
 
   def report_section
-    puts "Unit: #{ @unit }  - Floor Plan: #{ @floor_plan } - Status? #{ status }"
+    puts "Unit: #{ @unit }  - Floor Plan: #{ @floor_plan } - Status: #{ status }"
 
     if @current_resident.present?
-      puts print_resident "CURRENT", @current_resident
+      puts print_resident ResidentStatus::CURRENT, @current_resident
     end
 
     @future_residents.each do |future_resident|
-      puts print_resident "FUTURE", future_resident
+      puts print_resident ResidentStatus::FUTURE, future_resident
     end
 
     puts "---------------------------------------------------------------------------------------------------"
@@ -80,6 +79,6 @@ class RentRollReportLineItem
   private
   def print_resident(resident_status, r)
     move_out = r.move_out.present? ? "- Move Out: #{ r.move_out }" : ""
-    "--> Status: #{ resident_status } Name: #{ r.resident } - Move In: #{ r.move_in } #{ move_out }"
+    "--> Resident Status: #{ resident_status } Name: #{ r.resident } - Move In: #{ r.move_in } #{ move_out }"
   end
 end

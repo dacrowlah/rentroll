@@ -22,8 +22,7 @@ class RentRollReportLineItemTest < ActiveSupport::TestCase
   end
 
   test "that rent roll with future move in date counts as future resident" do
-    move_in_date = (today + 1.year).strftime(Constants::DATE_FORMAT)
-    item = RentRollReportLineItem.new(report_date: today, rent_rolls: [RentRoll.new(move_in: move_in_date)])
+    item = RentRollReportLineItem.new(report_date: today, rent_rolls: [RentRoll.new(move_in: next_year)])
     assert item.leased?
     assert item.leased_or_occupied?
     assert_not item.vacant?
@@ -74,5 +73,9 @@ class RentRollReportLineItemTest < ActiveSupport::TestCase
 
     def day_after_tomorrow
       today + 2.days
+    end
+
+    def next_year
+      (today + 1.year).strftime(Constants::DATE_FORMAT)
     end
 end
