@@ -1,5 +1,5 @@
 class RentRoll < ApplicationRecord
-  def available_on(report_date)
+  def vacant_on?(report_date)
     case
       when has_move_in_with_no_move_out?  then report_date < move_in_date
       when has_move_in_and_move_out?      then is_date_available_to_rent? report_date
@@ -7,8 +7,8 @@ class RentRoll < ApplicationRecord
     end
   end
 
-  def not_available_on?(report_date)
-    !available_on report_date
+  def occupied_on?(report_date)
+    !vacant_on? report_date
   end
 
   def future_resident?(report_date)

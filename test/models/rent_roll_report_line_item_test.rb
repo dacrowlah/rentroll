@@ -1,6 +1,13 @@
 # frozen_string_literal: true
+require 'test_helper'
 
 class RentRollReportLineItemTest < ActiveSupport::TestCase
+  test "that nil report_date argument to constructor raises error" do
+    assert_raise RuntimeError do
+      RentRollReportLineItem.new(report_date: nil, rent_rolls:[])
+    end
+  end
+
   test "that empty list to constructor raises error" do
     assert_raise RuntimeError do
       RentRollReportLineItem.new(report_date: today, rent_rolls: [])
@@ -45,9 +52,10 @@ class RentRollReportLineItemTest < ActiveSupport::TestCase
   end
 
   test "that unit number and floor plan are displayed correctly" do
-    item = RentRollReportLineItem.new(report_date: today, rent_rolls: [RentRoll.new(unit: 1, floor_plan: "Studio")])
+    rent_roll = RentRoll.new(unit: 1, floor_plan: FloorPlans::STUDIO)
+    item = RentRollReportLineItem.new(report_date: today, rent_rolls: [rent_roll])
     assert_equal 1, item.unit
-    assert_equal "Studio", item.floor_plan
+    assert_equal FloorPlans::STUDIO, item.floor_plan
   end
 
   test "that rent roll with move out date in the past is vacant" do
@@ -57,25 +65,4 @@ class RentRollReportLineItemTest < ActiveSupport::TestCase
     assert_not item.leased_or_occupied?
     assert_equal UnitStatus::VACANT, item.status
   end
-
-  private
-    def today
-      Date.today
-    end
-
-    def yesterday
-      (today - 1.day).strftime(Constants::DATE_FORMAT)
-    end
-
-    def tomorrow
-      (today + 1.day).strftime(Constants::DATE_FORMAT)
-    end
-
-    def day_after_tomorrow
-      today + 2.days
-    end
-
-    def next_year
-      (today + 1.year).strftime(Constants::DATE_FORMAT)
-    end
 end
