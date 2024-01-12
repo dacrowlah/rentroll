@@ -11,5 +11,24 @@ module ActiveSupport
     fixtures :all
 
     # Add more helper methods to be used by all tests here...
+    def today
+      Date.today
+    end
+
+    def yesterday
+      (today - 1.day).strftime(Constants::DATE_FORMAT)
+    end
+
+    def tomorrow
+      (today + 1.day).strftime(Constants::DATE_FORMAT)
+    end
+
+    def day_after_tomorrow
+      today + 2.days
+    end
+
+    def next_year
+      (today + 1.year).strftime(Constants::DATE_FORMAT)
+    end
   end
 end
