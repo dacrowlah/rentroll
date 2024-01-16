@@ -57,7 +57,7 @@ class RentRollReportLineItem
 
   def print_resident(resident_status, r)
     move_out = r.move_out.present? ? "- Move Out: #{ r.move_out }" : ""
-    "--> Resident Status: #{ resident_status } Name: #{ r.resident } - Move In: #{ r.move_in } #{ move_out }"
+    puts "--> Resident Status: #{ resident_status } Name: #{ r.resident_name } - Move In: #{ r.move_in } #{ move_out }"
   end
 
   def verify_args(report_date, rent_rolls: [])
