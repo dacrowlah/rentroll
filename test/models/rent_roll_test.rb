@@ -7,17 +7,17 @@ class RentRollTest < ActiveSupport::TestCase
   end
 
   test "the unit is available for date after move_out date" do 
-    roll = RentRoll.new(:move_in => yesterday, :move_out => tomorrow)
+    roll = RentRoll.new(move_in: yesterday, move_out: tomorrow)
     assert roll.vacant_on?(day_after_tomorrow)
   end
 
   test "the unit is not available for date within range of move_in/move_out" do 
-    roll = RentRoll.new(:move_in => yesterday, :move_out => tomorrow)
+    roll = RentRoll.new(move_in: yesterday, move_out: tomorrow)
     assert_not roll.vacant_on?(today)
   end
 
   test "the unit is not available for date after move_in without move_out date set" do 
-    roll = RentRoll.new(:move_in => yesterday)
+    roll = RentRoll.new(move_in: yesterday)
     assert_not roll.vacant_on?(today)
   end
 
@@ -31,5 +31,10 @@ class RentRollTest < ActiveSupport::TestCase
     roll = RentRoll.new(move_in: yesterday)
     assert_not roll.vacant_on? today
     assert_not roll.future_resident? today
+  end
+
+  test "that vacant unit has no resident name" do
+    roll = RentRoll.new(move_in: yesterday)
+    assert_nil roll.resident_name
   end
 end

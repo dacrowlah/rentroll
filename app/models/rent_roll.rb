@@ -1,4 +1,7 @@
 class RentRoll < ApplicationRecord
+  belongs_to :resident, optional: true
+  delegate :name, :to => :resident, prefix: true, allow_nil: true
+
   def vacant_on?(report_date)
     case
       when has_move_in_with_no_move_out?  then report_date < move_in_date
