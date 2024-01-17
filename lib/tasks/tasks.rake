@@ -10,20 +10,12 @@ namespace :tasks do
     CSV.foreach('lib/datasets/units-and-residents.csv', :headers => true) do |row|
       data = row.to_hash
 
-      if data["ssn"].present?
-        resident = Resident.find_by(ssn: data["ssn"])
-        if resident.nil?
-          resident_hash = {
-            name: data["resident"],
-            ssn: data["ssn"]
-          }
-          resident = Resident.create(resident_hash)
-        end
-
+      if data["resident"].present?
+        resident = Resident.find_or_create_by! name: data["resident"]
         data["resident_id"] = resident.id
       end
 
-      RentRoll.create!(data.except("resident", "ssn"))
+      RentRoll.create!(data.except("resident"))
     end
   end
 end
