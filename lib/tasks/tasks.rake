@@ -6,16 +6,17 @@ namespace :tasks do
     Resident.delete_all
     RentRoll.delete_all
 
-
     CSV.foreach('lib/datasets/units-and-residents.csv', :headers => true) do |row|
-      data = row.to_hash
+      params  = row.to_hash
+      name    = params["resident"]
 
-      if data["resident"].present?
-        resident = Resident.find_or_create_by! name: data["resident"]
-        data["resident_id"] = resident.id
+      unless name.present?
+        RentRoll.create!(params.except("resident"))
+        next
       end
 
-      RentRoll.create!(data.except("resident"))
+      resident = Resident.find_or_create_by! name: name
+      resident.rent_rolls.create! params.except("resident")
     end
   end
 end
